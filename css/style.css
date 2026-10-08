@@ -124,12 +124,18 @@ button { font: inherit; cursor: pointer; }
   cursor: grab;
 }
 #playfield.panning { cursor: grabbing; }
-#graticule, #gl, #overlay {
+#graticule, #gl, #strokes, #overlay {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
+#strokes { pointer-events: none; }
+#playfield.interacting #labels,
+#playfield.interacting #graticule,
+#playfield.interacting #lines,
+#playfield.interacting #ghosts,
+#playfield.interacting #handles { visibility: hidden; }
 #graticule { pointer-events: none; }
 #graticule path { fill: none; stroke: rgba(186, 214, 230, 0.16); stroke-width: 1; }
 #overlay { pointer-events: none; }
@@ -139,6 +145,13 @@ button { font: inherit; cursor: pointer; }
 .outline.centre { stroke: rgba(255, 226, 170, 0.95); stroke-width: 1.45; }
 .outline.locked { stroke: rgba(232, 255, 246, 0.92); }
 .river { fill: none; stroke: rgba(170, 214, 255, 0.9); stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
+#coasts { pointer-events: none; }
+.coast-wash, .coast-line, .coast-ripple { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.coast-wash { stroke: rgba(176, 220, 236, 0.34); stroke-width: 7; }
+.coast-line { stroke: rgba(244, 252, 255, 0.78); stroke-width: 1.25; }
+.coast-ripple { stroke: rgba(255, 255, 255, 0.55); stroke-width: 1.5; stroke-dasharray: 1.6 11; }
+.coast-drop { fill: rgba(255, 255, 255, 0.72); }
+.coast-ring { fill: none; stroke: rgba(214, 242, 255, 0.4); stroke-width: 0.9; }
 .country-stroke { fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 0.8; }
 .country-stroke.asia { stroke: rgba(255, 236, 196, 0.9); stroke-width: 1.05; }
 .country-stroke.dim { stroke: rgba(255, 255, 255, 0.18); }
@@ -499,6 +512,15 @@ button { font: inherit; cursor: pointer; }
 }
 .stage canvas, .stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 #card-svg .outline { stroke: rgba(255, 248, 230, 0.92); stroke-width: 1.6; fill: none; }
+#card-svg .outline.quiet { stroke: rgba(255, 248, 230, 0.42); stroke-width: 1.25; }
+#card-svg .mate { fill: rgba(214, 228, 240, 0.08); stroke: rgba(255, 248, 230, 0.34); stroke-width: 1.15; }
+#card-svg .seam {
+  fill: none;
+  stroke: rgba(255, 236, 196, 0.72);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 #card-svg .comet {
   fill: none;
   stroke-linecap: round;
@@ -564,11 +586,17 @@ button { font: inherit; cursor: pointer; }
   height: 240px;
   display: grid;
   place-items: center;
-  background: #fff;
+  background: #8a847b;
   border: 1px solid #c9b89a;
   border-radius: 12px;
 }
-.flag-stage img { max-width: 78%; max-height: 200px; }
+.flag-stage img {
+  max-width: 78%;
+  max-height: 200px;
+  background: #8a847b;
+  border: 1px solid #241c14;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 18px rgba(20, 14, 8, 0.38);
+}
 #flag-caption { text-align: center; margin-top: 12px; font-size: 20px; }
 
 .photo-grid {
